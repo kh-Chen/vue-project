@@ -1,6 +1,8 @@
+import Cookies from 'js-cookie';
+
 const login = {
   state:{
-    token:undefined
+    token:Cookies.get('login-token'),
   },
   mutations:{
     SET_TOKEN: (state, token) => {
@@ -12,16 +14,8 @@ const login = {
       const email = userInfo.email.trim();
       return new Promise((resolve, reject) => {
         commit('SET_TOKEN', 'sdsd');
-        // loginByEmail(email, userInfo.password).then(response => {
-        //   const data = response.data;
-        //   console.log(response.data);
-        //   Cookies.set('Admin-Token', response.data.token);
-        //   commit('SET_TOKEN', data.token);
-        //   commit('SET_EMAIL', email);
-          resolve();
-        // }).catch(error => {
-        //   reject(error);
-        // });
+         Cookies.set('login-token', email, { expires: 1 });
+         resolve();
       });
     },
   }
