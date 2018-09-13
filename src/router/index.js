@@ -11,7 +11,19 @@ const router = new Router({
   mode: 'hash',
   // linkActiveClass: 'open active',
   routes: [
-    {path: '/',name: 'HelloWorld',component: () => import('@/components/HelloWorld')},
+    {
+      path: '/',name: 'main',redirect: '/item1',
+      component: () => import('@/views/layout'),
+      children: [{
+        path: '/item1',name: 'item1',redirect: '/item1/op2',
+        component: {render (h) { return h('router-view') }},
+        children: [{
+          path: '/item1/op2',name: 'op2',
+          component: () => import('@/views/testview/testcom'),
+        }]
+
+      }]
+    },
     { path: '/login', component: () => import('@/views/login/index')}
   ]
 });
