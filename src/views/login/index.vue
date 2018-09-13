@@ -14,10 +14,8 @@
         </Input>
       </Form-item>
       <Form-item>
-        <Button type="primary" @click="handleLogin('loginForm')" long>登录</Button>
+        <Button type="primary" @click="handleLogin('loginForm')" long>{{$t('login.login')}}</Button>
       </Form-item>
-      <div class='tips'>admin账号为:admin@wz.com 密码123456</div>
-      <div class='tips'>editor账号:editor@wz.com 密码123456</div>
     </Form>
 
   </div>
@@ -30,32 +28,32 @@
   export default {
     name: 'login',
     data() {
-      const validateEmail = (rule, value, callback) => {
-        if (!isWscnEmail(value)) {
-          callback(new Error('请输入正确的合法邮箱'));
-        } else {
-          callback();
-        }
-      };
-      const validatePass = (rule, value, callback) => {
-        if (value.length < 6) {
-          callback(new Error('密码不能小于6位'));
-        } else {
-          callback();
-        }
-      };
       return {
         loginForm: {
           email: 'admin@wz.com',
-          password: ''
+          password: '111111'
         },
         loginRules: {
-          email: [
-            { required: true, trigger: 'blur', validator: validateEmail }
-          ],
-          password: [
-            { required: true, trigger: 'blur', validator: validatePass }
-          ]
+          email: [{
+            required: true, trigger: 'blur',
+            validator: (rule, value, callback) => {
+              if (!isWscnEmail(value)) {
+                callback(new Error('请输入正确的合法邮箱'));
+              } else {
+                callback();
+              }
+            }
+          }],
+          password: [{
+            required: true,trigger: 'blur',
+            validator: (rule, value, callback) => {
+              if (value.length < 6) {
+                callback(new Error('密码不能小于6位'));
+              } else {
+                callback();
+              }
+            }
+          }]
         },
         loading: false,
         showDialog: false
@@ -69,8 +67,8 @@
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true;
-            this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
-              this.$Message.success('登录成功');
+            this.$store.dispatch('doLogin', this.loginForm).then(() => {
+              this.$Message.success(this.$t('login.loginSucc'));
               this.loading = false;
               this.$router.push({ path: '/' });
             }).catch(err => {
@@ -78,7 +76,6 @@
               this.loading = false;
             });
           } else {
-            console.log('error submit!!');
             return false;
           }
         });

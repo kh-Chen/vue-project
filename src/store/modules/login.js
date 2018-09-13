@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import i18n from '@/lang-i18n';
 
 const login = {
   state:{
@@ -10,12 +11,12 @@ const login = {
     }
   },
   actions:{
-    LoginByEmail({ commit }, userInfo) {
+    doLogin({ commit }, userInfo) {
       const email = userInfo.email.trim();
       return new Promise((resolve, reject) => {
         commit('SET_TOKEN', 'sdsd');
-         Cookies.set('login-token', email, { expires: 1 });
-         resolve();
+        Cookies.set('login-token', email, { expires: 1 });
+        resolve();
       });
     },
   }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
+import i18n from '../lang-i18n';
 import store from '../store';
 import whiteList from './whiteList'
 Vue.use(Router);
